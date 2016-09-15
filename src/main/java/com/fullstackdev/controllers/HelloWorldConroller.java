@@ -1,0 +1,15 @@
+package com.fullstackdev.controllers;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+/**
+ * Created by nagla on 9/15/2016.
+ */
+@Controller
+public class HelloWorldConroller {
+    @RequestMapping("/")
+    public String sayHelloWorld(){
+        return "index";
+    }
+}
