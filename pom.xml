@@ -53,7 +53,11 @@
 			<version>3.3.6</version>
 		</dependency>
 
-
+		<!-- Logging Dependencies -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
