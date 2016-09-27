@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class LoginController {
     public static final String LOGIN_VIEW_NAME = "user/login";
-    private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
+
     @RequestMapping("/login")
     public String login() {
-        LOG.debug(" login controller returns the name of view {}", LOGIN_VIEW_NAME);
         return LOGIN_VIEW_NAME;
     }
 }
