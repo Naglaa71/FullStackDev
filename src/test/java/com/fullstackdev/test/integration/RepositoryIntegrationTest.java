@@ -8,6 +8,9 @@ import com.fullstackdev.backend.persistence.domain.backend.UserRole;
 import com.fullstackdev.backend.persistence.repositories.PlanRepository;
 import com.fullstackdev.backend.persistence.repositories.RoleRepository;
 import com.fullstackdev.backend.persistence.repositories.UserRepository;
+import com.fullstackdev.enums.PlansEnum;
+import com.fullstackdev.enums.RolesEnum;
+import com.fullstackdev.utils.UsersUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.HashSet;
 import java.util.Set;
+
 
 /**
  * Created by nagla on 9/28/2016.
@@ -33,8 +37,6 @@ public class RepositoryIntegrationTest {
     @Autowired
     private PlanRepository planRepository;
 
-    private static final int BASIC_PLAN_ID = 1;
-    private static final int BASIC_ROLE_ID = 1;
     private static final long BASIC_USER_ID = 1;
 
     @Before
@@ -47,49 +49,41 @@ public class RepositoryIntegrationTest {
     @Test
     public void testCreateNewPlan() throws Exception {
 
-        Plan basicPlan = createBasicPlan();
+        Plan basicPlan = createBasicPlan(PlansEnum.BASIC);
         planRepository.save(basicPlan);
-        Plan retrievedPlan = planRepository.findOne(BASIC_PLAN_ID);
+        Plan retrievedPlan = planRepository.findOne(PlansEnum.BASIC.getId());
         Assert.assertNotNull(retrievedPlan);
     }
 
-    public Plan createBasicPlan() {
-        Plan plan = new Plan();
-        plan.setId(BASIC_PLAN_ID);
-        plan.setName("Basic Plan");
-        return plan;
+    public Plan createBasicPlan(PlansEnum plansEnum) {
+        return new Plan(plansEnum);
     }
 
     @Test
     public void testCreateNewRole() throws Exception {
 
-        Role basicRole = createBasicRole();
+        Role basicRole = createBasicRole(RolesEnum.BASIC);
         roleRepository.save(basicRole);
-        Role retrievedRole = roleRepository.findOne(BASIC_ROLE_ID);
+        Role retrievedRole = roleRepository.findOne(RolesEnum.BASIC.getId());
         Assert.assertNotNull(retrievedRole);
     }
 
-    public Role createBasicRole() {
-        Role role = new Role();
-        role.setId(BASIC_ROLE_ID);
-        role.setName("User_Role");
-        return role;
+    public Role createBasicRole(RolesEnum rolesEnum) {
+        return new Role(rolesEnum);
     }
 
     @Test
     public void testCreateNewUser() throws Exception {
 
-        Plan basicPlan = createBasicPlan();
+        Plan basicPlan = createBasicPlan(PlansEnum.BASIC);
         planRepository.save(basicPlan);
 
-        User basicUser = createBasicUser();
+        User basicUser = UsersUtils.createBasicUser();
         basicUser.setPlan(basicPlan);
 
-        Role basicRole = createBasicRole();
+        Role basicRole = createBasicRole(RolesEnum.BASIC);
         Set<UserRole> userRoles = new HashSet<>();
-        UserRole userRole = new UserRole();
-        userRole.setRole(basicRole);
-        userRole.setUser(basicUser);
+        UserRole userRole = new UserRole(basicUser,basicRole);
         userRoles.add(userRole);
 
         basicUser.getUserRoles().addAll(userRoles);
@@ -111,17 +105,6 @@ public class RepositoryIntegrationTest {
         }
     }
 
-    public User createBasicUser() {
-        User user = new User();
-        user.setUsername("Basic User");
-        user.setFirstName("Naglaa");
-        user.setLastName("Awad");
-        user.setPhoneNumber("5715240356");
-        user.setEmail("naglaaawad71@gmail.com");
-        user.setCountry("USA");
-        user.setDescription("Resposible for registering customers data");
-        user.setPassword("secretword");
-        user.setEnabled(true);
-        return user;
-    }
+
+
 }

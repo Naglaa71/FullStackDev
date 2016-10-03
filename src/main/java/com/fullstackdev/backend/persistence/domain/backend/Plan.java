@@ -1,5 +1,6 @@
 package com.fullstackdev.backend.persistence.domain.backend;
 
+import com.fullstackdev.enums.PlansEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +23,11 @@ public class Plan implements Serializable{
     /** defualt constractor     **/
     public Plan(){
 
+    }
+
+    public Plan(PlansEnum plansEnum){
+        this.id = plansEnum.getId();
+        this.name = plansEnum.getPlanName();
     }
 
     public int getId() {
