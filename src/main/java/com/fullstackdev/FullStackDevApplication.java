@@ -6,7 +6,7 @@ import com.fullstackdev.backend.persistence.domain.backend.UserRole;
 import com.fullstackdev.backend.service.UserService;
 import com.fullstackdev.enums.PlansEnum;
 import com.fullstackdev.enums.RolesEnum;
-import com.fullstackdev.utils.UsersUtils;
+import com.fullstackdev.utils.UserUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +32,8 @@ public class FullStackDevApplication implements CommandLineRunner{
 	@Override
 	public void run(String... strings) throws Exception {
 		Set<UserRole> userRoles = new HashSet<>();
-		User user = UsersUtils.createBasicUser();
-		userRoles.add(new UserRole(user,new Role(RolesEnum.BASIC)));
+		User user = UserUtils.createBasicUser();
+		userRoles.add(new UserRole(user,new Role(RolesEnum.PRO)));
 		LOG.debug("Creating a user with user name {}", user.getUsername());
 		userService.createUser(user, PlansEnum.PRO,userRoles);
 		LOG.info("User Created {}", user.getUsername());

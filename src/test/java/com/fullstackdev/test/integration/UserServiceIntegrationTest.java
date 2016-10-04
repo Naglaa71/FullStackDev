@@ -7,7 +7,7 @@ import com.fullstackdev.backend.persistence.domain.backend.UserRole;
 import com.fullstackdev.backend.service.UserService;
 import com.fullstackdev.enums.PlansEnum;
 import com.fullstackdev.enums.RolesEnum;
-import com.fullstackdev.utils.UsersUtils;
+import com.fullstackdev.utils.UserUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +30,7 @@ public class UserServiceIntegrationTest {
     @Test
     public void testCreateNewUser() throws Exception {
         Set<UserRole> userRoles = new HashSet<>();
-        User basicUser = UsersUtils.createBasicUser();
+        User basicUser = UserUtils.createBasicUser();
         userRoles.add(new UserRole(basicUser,new Role(RolesEnum.BASIC)));
 
         User user = userService.createUser(basicUser,PlansEnum.BASIC,userRoles);
