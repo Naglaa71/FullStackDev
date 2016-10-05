@@ -9,7 +9,9 @@ import com.fullstackdev.enums.PlansEnum;
 import com.fullstackdev.enums.RolesEnum;
 import com.fullstackdev.utils.UserUtils;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -24,13 +26,17 @@ import java.util.Set;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = FullStackDevApplication.class)
 public class UserServiceIntegrationTest {
+    @Rule public TestName testName = new TestName();
     @Autowired
     private UserService userService;
 
     @Test
-    public void testCreateNewUser() throws Exception {
+    public void createNewUser() throws Exception {
         Set<UserRole> userRoles = new HashSet<>();
-        User basicUser = UserUtils.createBasicUser();
+        String username = testName.getMethodName();
+        String email = testName.getMethodName() + "@devops.com";
+
+        User basicUser = UserUtils.createBasicUser(username,email);
         userRoles.add(new UserRole(basicUser,new Role(RolesEnum.BASIC)));
 
         User user = userService.createUser(basicUser,PlansEnum.BASIC,userRoles);

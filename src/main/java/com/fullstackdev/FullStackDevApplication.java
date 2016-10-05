@@ -31,8 +31,10 @@ public class FullStackDevApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... strings) throws Exception {
+		String username = "proUser";
+		String email = "prouser@devops.com";
 		Set<UserRole> userRoles = new HashSet<>();
-		User user = UserUtils.createBasicUser();
+		User user = UserUtils.createBasicUser(username,email);
 		userRoles.add(new UserRole(user,new Role(RolesEnum.PRO)));
 		LOG.debug("Creating a user with user name {}", user.getUsername());
 		userService.createUser(user, PlansEnum.PRO,userRoles);

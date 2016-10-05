@@ -13,7 +13,9 @@ import com.fullstackdev.enums.RolesEnum;
 import com.fullstackdev.utils.UserUtils;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -38,6 +40,8 @@ public class RepositoryIntegrationTest {
     private PlanRepository planRepository;
 
     private static final long BASIC_USER_ID = 1;
+
+    @Rule public TestName testName = new TestName();
 
     @Before
     public void init() {
@@ -75,7 +79,10 @@ public class RepositoryIntegrationTest {
     @Test
     public void testCreateNewUser() throws Exception {
 
-        User basicUser = createNewUser();
+        String username = testName.getMethodName();
+        String email = testName.getMethodName() + "@devops.com";
+
+        User basicUser = createUser(username,email);
         User newlyCreatedUser = userRepository.findOne(basicUser.getId());
         Assert.assertNotNull(newlyCreatedUser);
         Assert.assertTrue(newlyCreatedUser.getId() != 0);
@@ -90,15 +97,19 @@ public class RepositoryIntegrationTest {
 
     @Test
     public void deleteUser() throws Exception {
-        User basicUser = createNewUser();
+        String username = testName.getMethodName();
+        String email = testName.getMethodName() + "@devops.com";
+
+        User basicUser = createUser(username,email);
         userRepository.delete(basicUser.getId());
     }
-    public User createNewUser() throws Exception {
+
+    public User createUser(String username, String email) throws Exception {
 
         Plan basicPlan = createBasicPlan(PlansEnum.BASIC);
         planRepository.save(basicPlan);
 
-        User basicUser = UserUtils.createBasicUser();
+        User basicUser = UserUtils.createBasicUser(username,email);
         basicUser.setPlan(basicPlan);
 
         Role basicRole = createBasicRole(RolesEnum.BASIC);
